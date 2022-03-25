@@ -11,8 +11,19 @@ export default function Horoscope() {
   const [moon, setMoon] = React.useState("");
   const [rising, setRising] = React.useState("");
 
+  const [horoscope, setHoroscope] = React.useState<string[]>([]);
+
   const handleClick = async () => {
-    const response = await axios.post("http://localhost:4567/horoscope");
+    const response = await axios.post("http://localhost:4567/horoscope", {
+      sun: sun,
+      moon: moon,
+      rising: rising,
+    });
+    if (response.status === 200) {
+      setHoroscope(response.data.horoscope);
+    } else {
+      setHoroscope(["Error"]);
+    }
   };
 
   return (
@@ -24,6 +35,11 @@ export default function Horoscope() {
       <AwesomeButton type="primary" onPress={handleClick}>
         Submit
       </AwesomeButton>
+      <div>
+        {horoscope.map((line, index) => (
+          <p key={index}>{line}</p>
+        ))}
+      </div>
     </div>
   );
 }
