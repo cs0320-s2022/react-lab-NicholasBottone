@@ -1,10 +1,19 @@
 import React from "react";
 import TextBox from "./TextBox";
+import axios from "axios";
+
+// @ts-ignore
+import { AwesomeButton } from "react-awesome-button";
+import "react-awesome-button/dist/styles.css";
 
 export default function Horoscope() {
   const [sun, setSun] = React.useState("");
   const [moon, setMoon] = React.useState("");
   const [rising, setRising] = React.useState("");
+
+  const handleClick = async () => {
+    const response = await axios.post("http://localhost:4567/horoscope");
+  };
 
   return (
     <div>
@@ -12,6 +21,9 @@ export default function Horoscope() {
       <TextBox label="Sun" value={sun} setValue={setSun} />
       <TextBox label="Moon" value={moon} setValue={setMoon} />
       <TextBox label="Rising" value={rising} setValue={setRising} />
+      <AwesomeButton type="primary" onPress={handleClick}>
+        Submit
+      </AwesomeButton>
     </div>
   );
 }
